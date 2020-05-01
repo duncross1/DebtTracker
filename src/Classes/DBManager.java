@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class DBManager {
     
-    public HashMap<Integer, Person> loadDebts(HashMap<Integer, Person>)
+    public HashMap<Integer, Debt> loadIndividualDebts(HashMap<Integer, Debt> debts, int DebteeID)
     {
         try
         {
@@ -30,16 +30,16 @@ public class DBManager {
             //Create a new blank query statement
             Statement stmt = conn.createStatement();
             
-            //Returns all rows of the people table in the database and assigns them to resultSet 'rs'
-            ResultSet rs = stmt.executeQuery("SELECT * FROM People");
+            //Returns all rows of the debts table in the database and assigns them to resultSet 'rs'
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Debts WHERE Debtee = '" + String.valueOf(DebteeID) + "'");
             
             //Loop through the results set
             while(rs.next())
             {
                 //Create a new person using a row of database data
-                Person newPerson = new Person(rs.getInt("PeopleID"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Notes"));
+                Debt newDebt = new Debt(rs.getInt("DebtID"), rs.getInt("Debtee"), rs.getString("DebtName"), rs.getString("Notes"), rs.getDouble("Amount"), rs.getDate("DOD"));
                 
-                debtees.put(newPerson.getPeopleID(), newPerson);
+                debts.put(newDebt.getDebtID(), newDebt);
             }
             
         }
@@ -50,7 +50,7 @@ public class DBManager {
         }
         finally
         {
-            return debtees;
+            return debts;
         }
     }
     

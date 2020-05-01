@@ -43,7 +43,7 @@ public class ControlPanel extends javax.swing.JFrame {
             Person personToAdd = entry.getValue();
             //add that person to the debtees table
             model.addRow(new Object[] 
-            {personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getNotes()});
+            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getNotes()});
         }
         
         lblMessage.setText("");
@@ -146,12 +146,14 @@ public class ControlPanel extends javax.swing.JFrame {
         //If a debtee has been selected from the table
         if(tblDebtees.getSelectedRow() != -1) 
         {
+            //Get model of the debtees table
+            DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel(); 
             //Get the selected debtees ID
-            DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel(); //initalize and assign model
-            String debteeID = String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 0));//initialize and assign orderId
-            
+            int debteeID = Integer.parseInt(String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 0)));
+            //Get the selected debtees name
+            String debteeName = String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 1));
             //Open view debtees view passing in the selected debtees ID
-            ViewDebtees vd = new ViewDebtees(debteeID);
+            ViewDebtee vd = new ViewDebtee(debteeID, debteeName);
             this.dispose();
             vd.setVisible(true);
         }

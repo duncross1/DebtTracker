@@ -21,6 +21,8 @@ public class ViewDebtee extends javax.swing.JFrame {
 
     //Passed in debtee being viewed
     private int viewedDebteeID;
+    //String for storing viewed debtees name
+    private String debteeName;
     //Load DBManager
     private DBManager db = new DBManager();
     //Hashmap for storing debts tied to this debtee
@@ -29,11 +31,13 @@ public class ViewDebtee extends javax.swing.JFrame {
     /**
      * Creates new form ViewDebtees
      */
-    public ViewDebtee(int viewedDebteeIDIn, String DebteeNameIn) {
+    public ViewDebtee(int viewedDebteeIDIn, String debteeNameIn) {
         initComponents();
         
         //Assign passed in debteeID to the viewDebteeId variable
         viewedDebteeID = viewedDebteeIDIn;
+        //Assign passed in debteeName to debteeName variable
+        debteeName = debteeNameIn;
         
         //Load debts for this debtee into debts hashmap
         debts = db.loadIndividualDebts(debts, viewedDebteeID);
@@ -51,7 +55,7 @@ public class ViewDebtee extends javax.swing.JFrame {
         }
         
         //Sets title to display debtees name
-        lblDebteeName.setText(DebteeNameIn);
+        lblDebteeName.setText(debteeName);
     }
 
     /**
@@ -67,6 +71,7 @@ public class ViewDebtee extends javax.swing.JFrame {
         tblDebts = new javax.swing.JTable();
         lblDebteeName = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,6 +104,13 @@ public class ViewDebtee extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Add Debt");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,9 +118,12 @@ public class ViewDebtee extends javax.swing.JFrame {
             .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99)
-                .addComponent(lblDebteeName)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(99, 99, 99)
+                        .addComponent(lblDebteeName)))
                 .addContainerGap(192, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -120,7 +135,9 @@ public class ViewDebtee extends javax.swing.JFrame {
                     .addComponent(btnBack))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(48, 48, 48))
         );
 
         pack();
@@ -131,6 +148,12 @@ public class ViewDebtee extends javax.swing.JFrame {
         this.dispose();
         cp.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AddDebt ad = new AddDebt(viewedDebteeID, debteeName);
+        this.dispose();
+        ad.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,6 +193,7 @@ public class ViewDebtee extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDebteeName;
     private javax.swing.JTable tblDebts;

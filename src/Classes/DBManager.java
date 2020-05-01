@@ -19,6 +19,32 @@ import java.util.HashMap;
  */
 public class DBManager {
     
+    public boolean addDebt(Debt newDebt)
+    {
+        try
+        {
+            //Form a connection to database
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            Connection conn = DriverManager.getConnection("jdbc:ucanaccess://data\\DTD.accdb");
+            
+            //Create a new blank query statement
+            Statement stmt = conn.createStatement();
+            
+            //Add a new row to the debt tables with passed in values
+            stmt.executeUpdate("INSERT INTO Debts (Debtee, DebtName, Notes, Amount, DOD) " +
+                "VALUES ('" + newDebt.getDebteeID() + "','" + newDebt.getDebtName() + 
+                     "','" + newDebt.getNotes() + "','" + newDebt.getAmount() + "','" + newDebt.getDOD() + "')");
+            //close database connection and return true
+            conn.close();
+            return true;
+        }
+        catch(Exception ex)
+        {
+            String message = ex.getMessage();
+            return false;
+        }
+    }
+    
     public HashMap<Integer, Debt> loadIndividualDebts(HashMap<Integer, Debt> debts, int DebteeID)
     {
         try

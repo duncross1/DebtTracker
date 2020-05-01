@@ -63,6 +63,7 @@ public class ControlPanel extends javax.swing.JFrame {
         btnAddNewDebtee = new javax.swing.JButton();
         btnViewDebtee = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
+        btnAddNewDebt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,6 +101,13 @@ public class ControlPanel extends javax.swing.JFrame {
 
         lblMessage.setText("Message");
 
+        btnAddNewDebt.setText("Add New Debt");
+        btnAddNewDebt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddNewDebtActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,7 +121,8 @@ public class ControlPanel extends javax.swing.JFrame {
                                 .addComponent(btnAddNewDebtee)
                                 .addGap(32, 32, 32)
                                 .addComponent(btnViewDebtee))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddNewDebt)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(lblMessage)))
@@ -128,7 +137,9 @@ public class ControlPanel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddNewDebtee)
                     .addComponent(btnViewDebtee))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAddNewDebt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(lblMessage)
                 .addGap(67, 67, 67))
         );
@@ -162,6 +173,27 @@ public class ControlPanel extends javax.swing.JFrame {
             lblMessage.setText("Please Select A Debtee from the table first");
         }
     }//GEN-LAST:event_btnViewDebteeActionPerformed
+
+    private void btnAddNewDebtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewDebtActionPerformed
+        //If a debtee has been selected from the table
+        if(tblDebtees.getSelectedRow() != -1) 
+        {
+            //Get model of the debtees table
+            DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel(); 
+            //Get the selected debtees ID
+            int debteeID = Integer.parseInt(String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 0)));
+            //Get the selected debtees name
+            String debteeName = String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 1));
+            //Open view debtees view passing in the selected debtees ID
+            AddDebt ad = new AddDebt(debteeID, debteeName);
+            this.dispose();
+            ad.setVisible(true);
+        }
+        else
+        {
+            lblMessage.setText("Please Select A Debtee from the table first");
+        }
+    }//GEN-LAST:event_btnAddNewDebtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,6 +231,7 @@ public class ControlPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddNewDebt;
     private javax.swing.JButton btnAddNewDebtee;
     private javax.swing.JButton btnViewDebtee;
     private javax.swing.JScrollPane jScrollPane1;

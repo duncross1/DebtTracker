@@ -19,6 +19,74 @@ import java.util.HashMap;
  */
 public class DBManager {
     
+    
+    public boolean removeAllDebtsWithID(int debteeIDIn)
+    {
+        try
+        {
+            //Form a connection to database
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            Connection conn = DriverManager.getConnection("jdbc:ucanaccess://data\\DTD.accdb");
+            Statement stmt = conn.createStatement();
+            
+            //Get every row in the Debts table where the Debtee equals the passed in ID
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Debts WHERE Debtee = '" + String.valueOf(debteeIDIn) + "'");
+            
+            if(rs.next())
+            {
+                //Loop through and remove any rows returned by the query above
+                stmt.executeUpdate("DELETE FROM Debts WHERE Debtee = '" + String.valueOf(debteeIDIn) + "'");
+                conn.close();
+                return true;
+            }
+            else
+            {
+                conn.close();
+                return false;
+            }  
+        }
+        catch(Exception ex)
+        {
+            String message = ex.getMessage();
+            return false;
+        }
+    }
+    
+    public boolean removeDebtee(int debteeIDIn)
+    {
+        try
+        {
+            //Form a connection to database
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            Connection conn = DriverManager.getConnection("jdbc:ucanaccess://data\\DTD.accdb");
+            Statement stmt = conn.createStatement();
+            
+            //Get every row in the people table where the PeopleID equals the passed in ID
+            ResultSet rs = stmt.executeQuery("SELECT * FROM People WHERE PeopleID = '" + String.valueOf(debteeIDIn) + "'");
+            
+            //Call the removeDebtsWithID function, which will remove any debts tied to the debtee about to be removed
+            removeAllDebtsWithID(debteeIDIn);
+            
+            //Loop through and remove any rows returned by the query above
+            if(rs.next())
+            {
+                stmt.executeUpdate("DELETE FROM People WHERE PeopleID = '" + String.valueOf(debteeIDIn) + "'");
+                conn.close();
+                return true;
+            }
+            else
+            {
+                conn.close();
+                return false;
+            }  
+        }
+        catch(Exception ex)
+        {
+            String message = ex.getMessage();
+            return false;
+        }
+    }
+    
     public boolean addDebt(Debt newDebt)
     {
         try

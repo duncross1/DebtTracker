@@ -68,6 +68,7 @@ public class AddDebt extends javax.swing.JFrame {
         txtDOD = new javax.swing.JTextField();
         btnAddDebt = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,6 +92,13 @@ public class AddDebt extends javax.swing.JFrame {
         });
 
         lblMessage.setText("Message");
+
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,13 +125,18 @@ public class AddDebt extends javax.swing.JFrame {
                                 .addComponent(txtDOD, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(125, 125, 125)
-                        .addComponent(lblMessage)))
+                        .addComponent(lblMessage))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(223, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap()
+                .addComponent(btnBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDebtee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -163,7 +176,21 @@ public class AddDebt extends javax.swing.JFrame {
         nd.setDOD(Date.valueOf(txtDOD.getText()));
         
         db.addDebt(nd);
+        
+        txtDebtName.setText("");
+        txtNotes.setText("");
+        txtAmount.setText("0.00");
+        txtDOD.setText(String.valueOf(Date.valueOf(LocalDate.now())));
+        
+        lblMessage.setText("Debt Added, Add Another Debt, or click the back button");
     }//GEN-LAST:event_btnAddDebtActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        //Open view debtees view passing in the selected debtees ID
+        ControlPanel cp = new ControlPanel();
+        this.dispose();
+        cp.setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,6 +229,7 @@ public class AddDebt extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddDebt;
+    private javax.swing.JButton btnBack;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

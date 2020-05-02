@@ -71,7 +71,8 @@ public class ViewDebtee extends javax.swing.JFrame {
         tblDebts = new javax.swing.JTable();
         lblDebteeName = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnAddDebt = new javax.swing.JButton();
+        btnRemoveDebtee = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,10 +105,17 @@ public class ViewDebtee extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Add Debt");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddDebt.setText("Add Debt");
+        btnAddDebt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddDebtActionPerformed(evt);
+            }
+        });
+
+        btnRemoveDebtee.setText("Remove This Debtee");
+        btnRemoveDebtee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveDebteeActionPerformed(evt);
             }
         });
 
@@ -119,11 +127,13 @@ public class ViewDebtee extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(99, 99, 99)
-                        .addComponent(lblDebteeName)))
+                        .addComponent(lblDebteeName))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnRemoveDebtee, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddDebt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)))
                 .addContainerGap(192, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -136,24 +146,38 @@ public class ViewDebtee extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(48, 48, 48))
+                .addComponent(btnAddDebt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRemoveDebtee)
+                .addGap(10, 10, 10))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        //Open Control Panel Menu and Close This Menu
         ControlPanel cp = new ControlPanel();
         this.dispose();
         cp.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddDebtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDebtActionPerformed
+        //Open add debt Menu, passing in the viewed debtee ID and the viewed Debtees name and Close This Menu
         AddDebt ad = new AddDebt(viewedDebteeID, debteeName);
         this.dispose();
         ad.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddDebtActionPerformed
+
+    private void btnRemoveDebteeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveDebteeActionPerformed
+        
+        db.removeDebtee(viewedDebteeID);
+        
+        //Open view debtees view passing in the selected debtees ID
+        ControlPanel cp = new ControlPanel();
+        this.dispose();
+        cp.setVisible(true);
+    }//GEN-LAST:event_btnRemoveDebteeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,8 +216,9 @@ public class ViewDebtee extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddDebt;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRemoveDebtee;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDebteeName;
     private javax.swing.JTable tblDebts;

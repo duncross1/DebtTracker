@@ -31,20 +31,8 @@ public class ControlPanel extends javax.swing.JFrame {
     public ControlPanel() {
         initComponents();
         
-        //Load in the users debtees from the database
-        debtees = db.loadPeople(debtees);
-        
-        //Create a table model and assign it the table model of the debtees table
-        DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel();
-        //Loop through the hashmap of debtees and add them to the debtees table
-        for(Map.Entry<Integer, Person> entry : debtees.entrySet())
-        {
-            //Get the current person(debtee) in the entry set
-            Person personToAdd = entry.getValue();
-            //add that person to the debtees table
-            model.addRow(new Object[] 
-            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getNotes()});
-        }
+        //Calls the method to load the table
+        loadTable();
         
         lblMessage.setText("");
     }
@@ -64,6 +52,7 @@ public class ControlPanel extends javax.swing.JFrame {
         btnViewDebtee = new javax.swing.JButton();
         lblMessage = new javax.swing.JLabel();
         btnAddNewDebt = new javax.swing.JButton();
+        btnRemoveDebtee = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +97,13 @@ public class ControlPanel extends javax.swing.JFrame {
             }
         });
 
+        btnRemoveDebtee.setText("Remove Debtee");
+        btnRemoveDebtee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveDebteeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,7 +116,9 @@ public class ControlPanel extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnAddNewDebtee)
                                 .addGap(32, 32, 32)
-                                .addComponent(btnViewDebtee))
+                                .addComponent(btnViewDebtee)
+                                .addGap(34, 34, 34)
+                                .addComponent(btnRemoveDebtee))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAddNewDebt)))
                     .addGroup(layout.createSequentialGroup()
@@ -136,7 +134,8 @@ public class ControlPanel extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddNewDebtee)
-                    .addComponent(btnViewDebtee))
+                    .addComponent(btnViewDebtee)
+                    .addComponent(btnRemoveDebtee))
                 .addGap(18, 18, 18)
                 .addComponent(btnAddNewDebt)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
@@ -195,6 +194,48 @@ public class ControlPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddNewDebtActionPerformed
 
+    private void btnRemoveDebteeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveDebteeActionPerformed
+        if(tblDebtees.getSelectedRow() != -1) 
+        {
+            //Get model of the debtees table
+            DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel(); 
+            //Get the selected debtees ID
+            int debteeID = Integer.parseInt(String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 0)));
+            //Open view debtees view passing in the selected debtees ID
+            db.removeDebtee(debteeID);
+            
+            //calls the method to load the table, basically updating it by reloading it
+            loadTable();
+        }
+        else
+        {
+            lblMessage.setText("Please Select A Debtee from the table first");
+        }
+    }//GEN-LAST:event_btnRemoveDebteeActionPerformed
+
+    
+    private void loadTable()
+    {
+        //Clear the debtees hashmap
+        debtees.clear();
+        //Load in the users debtees from the database in the debtees hashmap
+        debtees = db.loadPeople(debtees);
+        
+        //Create a table model and assign it the table model of the debtees table
+        DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel();
+        //deletes any existing rows from the table
+        model.setRowCount(0);
+        //Loop through the hashmap of debtees and add them to the debtees table
+        for(Map.Entry<Integer, Person> entry : debtees.entrySet())
+        {
+            //Get the current person(debtee) in the entry set
+            Person personToAdd = entry.getValue();
+            //add that person to the debtees table
+            model.addRow(new Object[] 
+            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getNotes()});
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -233,6 +274,7 @@ public class ControlPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddNewDebt;
     private javax.swing.JButton btnAddNewDebtee;
+    private javax.swing.JButton btnRemoveDebtee;
     private javax.swing.JButton btnViewDebtee;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMessage;

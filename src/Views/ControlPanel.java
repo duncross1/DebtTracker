@@ -32,9 +32,7 @@ public class ControlPanel extends javax.swing.JFrame {
         initComponents();
         
         //Calls the method to load the table
-        loadTable();
-        
-        lblMessage.setText("");
+        LoadTable();
     }
 
     /**
@@ -124,7 +122,7 @@ public class ControlPanel extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(lblMessage)))
-                .addContainerGap(296, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,17 +193,18 @@ public class ControlPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddNewDebtActionPerformed
 
     private void btnRemoveDebteeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveDebteeActionPerformed
+        //If a debtee has been selected from the table
         if(tblDebtees.getSelectedRow() != -1) 
         {
             //Get model of the debtees table
             DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel(); 
             //Get the selected debtees ID
             int debteeID = Integer.parseInt(String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 0)));
-            //Open view debtees view passing in the selected debtees ID
+            //Call the DBManager method remove this debtee from the database
             db.removeDebtee(debteeID);
             
             //calls the method to load the table, basically updating it by reloading it
-            loadTable();
+            LoadTable();
         }
         else
         {
@@ -214,7 +213,7 @@ public class ControlPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveDebteeActionPerformed
 
     
-    private void loadTable()
+    private void LoadTable()
     {
         //Clear the debtees hashmap
         debtees.clear();
@@ -234,6 +233,8 @@ public class ControlPanel extends javax.swing.JFrame {
             model.addRow(new Object[] 
             {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getNotes()});
         }
+        
+        lblMessage.setText("");
     }
     
     /**

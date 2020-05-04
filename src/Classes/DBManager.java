@@ -19,6 +19,37 @@ import java.util.HashMap;
  */
 public class DBManager {
     
+    public boolean removeDebt(int debtIDIn)
+    {
+        try
+        {
+            //Form a connection to database
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            Connection conn = DriverManager.getConnection("jdbc:ucanaccess://data\\DTD.accdb");
+            Statement stmt = conn.createStatement();
+            
+            //Get every row in the Debts table where the Debtee equals the passed in ID
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Debts WHERE DebtID = '" + String.valueOf(debtIDIn) + "'");
+            
+            if(rs.next())
+            {
+                //Loop through and remove any rows returned by the query above
+                stmt.executeUpdate("DELETE FROM Debts WHERE DebtID = '" + String.valueOf(debtIDIn) + "'");
+                conn.close();
+                return true;
+            }
+            else
+            {
+                conn.close();
+                return false;
+            }  
+        }
+        catch(Exception ex)
+        {
+            String message = ex.getMessage();
+            return false;
+        }
+    }
     
     public boolean removeAllDebtsWithID(int debteeIDIn)
     {

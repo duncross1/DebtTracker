@@ -19,6 +19,7 @@ import java.util.HashMap;
  */
 public class DBManager {
     
+    
     public boolean removeDebt(int debtIDIn)
     {
         try

@@ -82,7 +82,7 @@
               <Table columnCount="3" rowCount="0">
                 <Column editable="false" title="ID" type="java.lang.Object"/>
                 <Column editable="false" title="Debtee" type="java.lang.Object"/>
-                <Column editable="false" title="Total Debt Value" type="java.lang.Object"/>
+                <Column editable="false" title="Total Debt Value &#xa3;" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

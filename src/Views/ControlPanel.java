@@ -59,7 +59,7 @@ public class ControlPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Debtee", "Total Debt Value"
+                "ID", "Debtee", "Total Debt Value £"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -231,7 +231,7 @@ public class ControlPanel extends javax.swing.JFrame {
             Person personToAdd = entry.getValue();
             //add that person to the debtees table
             model.addRow(new Object[] 
-            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getNotes()});
+            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getTotalDebt()});
         }
         
         lblMessage.setText("");

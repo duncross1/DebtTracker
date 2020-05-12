@@ -20,6 +20,41 @@ import java.util.HashMap;
 public class DBManager {
     
     
+    public HashMap<Integer, Debt> loadDebts(HashMap<Integer, Debt> debts)
+    {
+        try
+        {
+            //Form a connection to database
+            Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+            Connection conn = DriverManager.getConnection("jdbc:ucanaccess://data\\DTD.accdb");
+            
+            //Create a new blank query statement
+            Statement stmt = conn.createStatement();
+            
+            //Returns all rows of the people table in the database and assigns them to resultSet 'rs'
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Debts");
+            
+            //Loop through the results set
+            while(rs.next())
+            {
+                //Create a new person using a row of database data
+                Debt newDebt = new Debt(rs.getInt("DebtID"), rs.getInt("Debtee"), rs.getString("DebtName"), rs.getString("Notes"), rs.getDouble("Amount"), rs.getDate("DOD"));
+                
+                debts.put(newDebt.getDebtID(), newDebt);
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            String message = ex.getMessage();
+            
+        }
+        finally
+        {
+            return debts;
+        }
+    }
+    
     public boolean removeDebt(int debtIDIn)
     {
         try

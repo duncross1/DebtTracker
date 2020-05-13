@@ -19,7 +19,6 @@ public class Person {
     private int peopleID;
     private String firstName;
     private String lastName;
-    private String notes;
     private double totalDebt;
     
     //Getters
@@ -36,12 +35,7 @@ public class Person {
     public String getLastName()
     {
         return lastName;
-    }
-    
-    public String getNotes()
-    {
-        return notes;
-    }
+    } 
     
     public double getTotalDebt()
     {
@@ -64,11 +58,6 @@ public class Person {
         lastName = lastNameIn;
     }
     
-    public void setNotes(String notesIn)
-    {
-        notes = notesIn;
-    }
-    
     public void setTotalDebt(double totalDebtIn)
     {
         totalDebt = totalDebtIn;
@@ -79,25 +68,22 @@ public class Person {
     {
         firstName = "";
         lastName = "";
-        notes = "";
         totalDebt = 0;
     }
     
     //Overloaded Constructors
-    public Person(String firstNameIn, String lastNameIn, String notesIn)
+    public Person(String firstNameIn, String lastNameIn)
     {
         firstName = firstNameIn;
         lastName = lastNameIn;
-        notes = notesIn;
         calculateTotalDebt();
     }
     
-    public Person(int peopleIDIn, String firstNameIn, String lastNameIn, String notesIn)
+    public Person(int peopleIDIn, String firstNameIn, String lastNameIn)
     {
         peopleID = peopleIDIn;
         firstName = firstNameIn;
         lastName = lastNameIn;
-        notes = notesIn;
         calculateTotalDebt();
     }
     

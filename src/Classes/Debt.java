@@ -18,7 +18,6 @@ public class Debt {
     private int debtID;
     private int debteeID;
     private String debtName;
-    private String notes;
     private double amount;
     private Date DOD;
     
@@ -36,12 +35,7 @@ public class Debt {
     public String getDebtName()
     {
         return debtName;
-    }
-    
-    public String getNotes()
-    {
-        return notes;
-    }
+    } 
     
     public double getAmount()
     {
@@ -69,11 +63,6 @@ public class Debt {
         debtName = debtNameIn;
     }
     
-    public void setNotes(String notesIn)
-    {
-        notes = notesIn;
-    }
-    
     public void setAmount(double amountIn)
     {
         amount = amountIn;
@@ -90,27 +79,24 @@ public class Debt {
         debtID = -1;
         debteeID = -1;
         debtName = "";
-        notes = "";
         amount = 0.00;
         DOD = Date.valueOf(LocalDate.now());
     }
     
     //Overloaded Constructors
-    public Debt(int debteeIDIn, String debtNameIn, String notesIn, double amountIn, Date DODIn)
+    public Debt(int debteeIDIn, String debtNameIn, double amountIn, Date DODIn)
     {
         debteeID = debteeIDIn;
         debtName = debtNameIn;
-        notes = notesIn;
         amount = amountIn;
         DOD = DODIn;
     }
     
-    public Debt(int debtIDIn, int debteeIDIn, String debtNameIn, String notesIn, double amountIn, Date DODIn)
+    public Debt(int debtIDIn, int debteeIDIn, String debtNameIn, double amountIn, Date DODIn)
     {
         debtID = debtIDIn;
         debteeID = debteeIDIn;
         debtName = debtNameIn;
-        notes = notesIn;
         amount = amountIn;
         DOD = DODIn;
     }

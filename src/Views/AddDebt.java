@@ -61,8 +61,6 @@ public class AddDebt extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtDebtName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtNotes = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtAmount = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -73,17 +71,16 @@ public class AddDebt extends javax.swing.JFrame {
         cbxDebtType = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DesktopDebter");
+        setResizable(false);
 
         txtDebtee.setEditable(false);
 
         jLabel1.setText("Debtee:");
 
         jLabel2.setText("Debt Name:");
-
-        jLabel3.setText("Notes:");
 
         jLabel4.setText("Amount: £");
 
@@ -112,23 +109,18 @@ public class AddDebt extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel7.setText("Mandatory Fields");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel8.setText("Optional Fields");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel6)
@@ -140,31 +132,22 @@ public class AddDebt extends javax.swing.JFrame {
                                                 .addComponent(jLabel2)
                                                 .addComponent(jLabel1)
                                                 .addComponent(jLabel4)
-                                                .addComponent(jLabel5)
-                                                .addComponent(jLabel3))
+                                                .addComponent(jLabel5))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(txtDebtee, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                                                 .addComponent(txtDebtName)
                                                 .addComponent(txtAmount)
-                                                .addComponent(txtDOD)
-                                                .addComponent(txtNotes))))
+                                                .addComponent(txtDOD))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(120, 120, 120)
-                                        .addComponent(jLabel7)))))
-                        .addGap(0, 16, Short.MAX_VALUE))
+                                        .addComponent(jLabel7)))
+                                .addGap(0, 42, Short.MAX_VALUE))
+                            .addComponent(btnAddDebt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnAddDebt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblMessage)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addGap(78, 78, 78))
+                        .addComponent(lblMessage)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,12 +176,6 @@ public class AddDebt extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtDOD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNotes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAddDebt)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -210,36 +187,42 @@ public class AddDebt extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddDebtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDebtActionPerformed
-        Debt nd = new Debt();
-        //Assign text box values to a new debt object
-        nd.setDebteeID(debteeID);
-        nd.setDebtName(txtDebtName.getText());
-        nd.setNotes(txtNotes.getText());
-        //If debt is a debit (you owe them) convert value to a negative number
-        if (cbxDebtType.getSelectedIndex() == 0)
+        //If mandatory textfields are filled out
+        if(!txtDebtName.getText().isEmpty() && !txtAmount.getText().isEmpty()
+        && !txtDOD.getText().isEmpty())
         {
-            nd.setAmount((Double.valueOf(txtAmount.getText())) * -1);
+            Debt nd = new Debt();
+            //Assign text box values to a new debt object
+            nd.setDebteeID(debteeID);
+            nd.setDebtName(txtDebtName.getText());
+            //If debt is a debit (you owe them) convert value to a negative number
+            if (cbxDebtType.getSelectedIndex() == 0)
+            {
+                nd.setAmount((Double.valueOf(txtAmount.getText())) * -1);
+            }
+            else if (cbxDebtType.getSelectedIndex() == 1)
+            {
+                nd.setAmount(Double.valueOf(txtAmount.getText()));
+            }
+
+            nd.setDOD(Date.valueOf(txtDOD.getText()));
+
+            //Call the add debt DBManager method, passing in the new debt 'nd'
+            db.addDebt(nd);
+
+            //Clear the text boxes
+            txtDebtName.setText("");
+            txtAmount.setText("0.00");
+            txtDOD.setText(String.valueOf(Date.valueOf(LocalDate.now())));
+
+            //lblMessage.setForeground(Color.green);
+            //Display a success message
+            lblMessage.setText("Debt Added, Add Another Debt, or click the back button");
         }
-        else if (cbxDebtType.getSelectedIndex() == 1)
+        else
         {
-            nd.setAmount(Double.valueOf(txtAmount.getText()));
+            lblMessage.setText("Please Fill out all required fields");
         }
-        
-        nd.setDOD(Date.valueOf(txtDOD.getText()));
-        
-        //Call the add debt DBManager method, passing in the new debt 'nd'
-        db.addDebt(nd);
-        
-        //Clear the text boxes
-        txtDebtName.setText("");
-        txtNotes.setText("");
-        txtAmount.setText("0.00");
-        txtDOD.setText(String.valueOf(Date.valueOf(LocalDate.now())));
-        
-        //lblMessage.setForeground(Color.green);
-        //Display a success message
-        lblMessage.setText("Debt Added, Add Another Debt, or click the back button");
-        
 
     }//GEN-LAST:event_btnAddDebtActionPerformed
 
@@ -291,17 +274,14 @@ public class AddDebt extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxDebtType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtDOD;
     private javax.swing.JTextField txtDebtName;
     private javax.swing.JTextField txtDebtee;
-    private javax.swing.JTextField txtNotes;
     // End of variables declaration//GEN-END:variables
 }

@@ -38,7 +38,7 @@ public class DBManager {
             while(rs.next())
             {
                 //Create a new person using a row of database data
-                Debt newDebt = new Debt(rs.getInt("DebtID"), rs.getInt("Debtee"), rs.getString("DebtName"), rs.getString("Notes"), rs.getDouble("Amount"), rs.getDate("DOD"));
+                Debt newDebt = new Debt(rs.getInt("DebtID"), rs.getInt("Debtee"), rs.getString("DebtName"),  rs.getDouble("Amount"), rs.getDate("DOD"));
                 
                 debts.put(newDebt.getDebtID(), newDebt);
             }
@@ -166,9 +166,9 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             
             //Add a new row to the debt tables with passed in values
-            stmt.executeUpdate("INSERT INTO Debts (Debtee, DebtName, Notes, Amount, DOD) " +
-                "VALUES ('" + newDebt.getDebteeID() + "','" + newDebt.getDebtName() + 
-                     "','" + newDebt.getNotes() + "','" + newDebt.getAmount() + "','" + newDebt.getDOD() + "')");
+            stmt.executeUpdate("INSERT INTO Debts (Debtee, DebtName, Amount, DOD) " +
+                "VALUES ('" + newDebt.getDebteeID() + "','" + newDebt.getDebtName() +
+                    "','" + newDebt.getAmount() + "','" + newDebt.getDOD() + "')");
             //close database connection and return true
             conn.close();
             return true;
@@ -198,7 +198,7 @@ public class DBManager {
             while(rs.next())
             {
                 //Create a new person using a row of database data
-                Debt newDebt = new Debt(rs.getInt("DebtID"), rs.getInt("Debtee"), rs.getString("DebtName"), rs.getString("Notes"), rs.getDouble("Amount"), rs.getDate("DOD"));
+                Debt newDebt = new Debt(rs.getInt("DebtID"), rs.getInt("Debtee"), rs.getString("DebtName"), rs.getDouble("Amount"), rs.getDate("DOD"));
                 
                 debts.put(newDebt.getDebtID(), newDebt);
             }
@@ -227,8 +227,8 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             
             //Add a new row to the person tables with passed in values
-            stmt.executeUpdate("INSERT INTO People (FirstName, LastName, Notes) " +
-                "VALUES ('" + newPerson.getFirstName() + "','" + newPerson.getLastName() + "','"  + newPerson.getNotes() + "')");
+            stmt.executeUpdate("INSERT INTO People (FirstName, LastName) " +
+                "VALUES ('" + newPerson.getFirstName() + "','" + newPerson.getLastName() + "')");
             //close database connection and return true
             conn.close();
             return true;
@@ -258,7 +258,7 @@ public class DBManager {
             while(rs.next())
             {
                 //Create a new person using a row of database data
-                Person newPerson = new Person(rs.getInt("PeopleID"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Notes"));
+                Person newPerson = new Person(rs.getInt("PeopleID"), rs.getString("FirstName"), rs.getString("LastName"));
                 
                 debtees.put(newPerson.getPeopleID(), newPerson);
             }

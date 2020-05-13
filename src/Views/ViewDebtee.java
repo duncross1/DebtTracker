@@ -68,17 +68,19 @@ public class ViewDebtee extends javax.swing.JFrame {
         lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DesktopDebter - Debtee View");
+        setResizable(false);
 
         tblDebts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Debt", "Value", "DOD", "Notes"
+                "ID", "Debt", "Value", "DOD"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -226,7 +228,7 @@ public class ViewDebtee extends javax.swing.JFrame {
             Debt debtToAdd = entry.getValue();
             //add that debt to the debts table
             model.addRow(new Object[] 
-            {debtToAdd.getDebtID(), debtToAdd.getDebtName(), "£" +  String.format("%.02f", debtToAdd.getAmount()), debtToAdd.getDOD(), debtToAdd.getNotes()});
+            {debtToAdd.getDebtID(), debtToAdd.getDebtName(), "£" +  String.format("%.02f", debtToAdd.getAmount()), debtToAdd.getDOD()});
         }
         
         //Hide message label

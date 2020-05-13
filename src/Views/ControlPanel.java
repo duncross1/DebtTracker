@@ -8,8 +8,12 @@ package Views;
 import Classes.DBManager;
 import Classes.Debt;
 import Classes.Person;
+import static java.awt.SystemColor.text;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /** Control Panel View
@@ -36,6 +40,46 @@ public class ControlPanel extends javax.swing.JFrame {
         
         //Calls the method to load the table
         LoadTables();
+        
+        
+        tblDebtees.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event){
+                //Clear the debts hashmap
+                debts.clear();
+                
+                //Get model of the debtees table
+                DefaultTableModel model = (DefaultTableModel)tblDebtees.getModel(); 
+                
+                //The if statement fixes a crash when reloading table, the applicaiton would crash because
+                //when the tables reload there is no selected value but the listener would attempt to get
+                //the selected value anyway
+                if(tblDebtees.getSelectedRow() != -1) 
+                {
+                    //Get the selected debtees ID
+                    int debteeIDT = Integer.parseInt(String.valueOf(model.getValueAt(tblDebtees.getSelectedRow(), 0)));
+
+                    //Load the selcted debtees debts from the database into the debts hashmap
+                    debts = db.loadIndividualDebts(debts, debteeIDT);
+                }
+                
+                //get the table model of the debts table
+                model = (DefaultTableModel)tblDebts.getModel();
+                //deletes any existing rows from the table
+                model.setRowCount(0);
+
+                //Loop through the hashmap of debtees and add them to the debtees table
+                for(Map.Entry<Integer, Debt> entry : debts.entrySet())
+                {
+                    //Get the current person(debtee) in the entry set
+                    Debt debtToAdd = entry.getValue();
+
+                    //add that person to the debtees table
+                    model.addRow(new Object[] 
+                    {debtToAdd.getDebtID(), debtToAdd.getDebtName(), debtToAdd.getDebteeID(), "£" +  String.format("%.02f", debtToAdd.getAmount()), debtToAdd.getDOD()});
+                }
+            }
+        });
+        
     }
 
     /**
@@ -56,7 +100,9 @@ public class ControlPanel extends javax.swing.JFrame {
         btnRemoveDebtee = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDebts = new javax.swing.JTable();
+        btnRemoveDebt = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        lblTitle = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,7 +111,7 @@ public class ControlPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Debtee", "Total Debt Value £"
+                "ID", "Debtee", "Total Debt Value"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -74,6 +120,11 @@ public class ControlPanel extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblDebtees.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tblDebteesPropertyChange(evt);
             }
         });
         jScrollPane1.setViewportView(tblDebtees);
@@ -126,59 +177,77 @@ public class ControlPanel extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblDebts);
 
-        jButton1.setText("Remove Debt");
+        btnRemoveDebt.setText("Remove Debt");
+        btnRemoveDebt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveDebtActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Show All Debts");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        lblTitle.setText("Debt Tracker");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAddNewDebt)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnAddNewDebtee)
-                                        .addGap(32, 32, 32)
-                                        .addComponent(btnViewDebtee)
-                                        .addGap(34, 34, 34)
-                                        .addComponent(btnRemoveDebtee))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1)))))
+                        .addComponent(lblMessage)
+                        .addGap(1029, 1029, 1029))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(lblMessage)))
-                .addGap(73, 73, 73))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAddNewDebtee)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnViewDebtee)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRemoveDebtee))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAddNewDebt)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnRemoveDebt)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)))
+                        .addGap(12, 12, 12))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(383, 383, 383)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
-                .addGap(35, 35, 35)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddNewDebtee)
                     .addComponent(btnViewDebtee)
                     .addComponent(btnRemoveDebtee)
+                    .addComponent(btnAddNewDebt)
+                    .addComponent(btnRemoveDebt)
                     .addComponent(jButton1))
-                .addGap(51, 51, 51)
-                .addComponent(btnAddNewDebt)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMessage)
-                .addGap(67, 67, 67))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -252,7 +321,7 @@ public class ControlPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRemoveDebteeActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRemoveDebtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveDebtActionPerformed
         //If a debt has been selected from the table
         if(tblDebts.getSelectedRow() != -1) 
         {
@@ -270,11 +339,19 @@ public class ControlPanel extends javax.swing.JFrame {
         {
             lblMessage.setText("Please Select A Debt from the debts table first");
         }
+    }//GEN-LAST:event_btnRemoveDebtActionPerformed
+
+    private void tblDebteesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblDebteesPropertyChange
+
+    }//GEN-LAST:event_tblDebteesPropertyChange
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        LoadTables();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
     private void LoadTables()
-    {
+    {       
         //DEBTEES TABLE
         //Clear the debtees hashmap
         debtees.clear();
@@ -293,7 +370,7 @@ public class ControlPanel extends javax.swing.JFrame {
             Person personToAdd = entry.getValue();
             //add that person to the debtees table
             model.addRow(new Object[] 
-            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), personToAdd.getTotalDebt()});
+            {personToAdd.getPeopleID(), personToAdd.getFirstName() + " " + personToAdd.getLastName(), "£" +  String.format("%.02f", personToAdd.getTotalDebt())});
         }
         
         //DEBTS TABLE
@@ -311,12 +388,16 @@ public class ControlPanel extends javax.swing.JFrame {
         {
             //Get the current person(debtee) in the entry set
             Debt debtToAdd = entry.getValue();
+            
             //add that person to the debtees table
             model.addRow(new Object[] 
-            {debtToAdd.getDebtID(), debtToAdd.getDebtName(), debtToAdd.getDebtID(), debtToAdd.getAmount(), debtToAdd.getDOD()});
+            {debtToAdd.getDebtID(), debtToAdd.getDebtName(), debtToAdd.getDebteeID(), "£" +  String.format("%.02f", debtToAdd.getAmount()), debtToAdd.getDOD()});
         }
-        lblMessage.setText("");
+        
+        lblMessage.setText("");   
     }
+    
+    
     
     /**
      * @param args the command line arguments
@@ -356,12 +437,14 @@ public class ControlPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddNewDebt;
     private javax.swing.JButton btnAddNewDebtee;
+    private javax.swing.JButton btnRemoveDebt;
     private javax.swing.JButton btnRemoveDebtee;
     private javax.swing.JButton btnViewDebtee;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblMessage;
+    private java.awt.Label lblTitle;
     private javax.swing.JTable tblDebtees;
     private javax.swing.JTable tblDebts;
     // End of variables declaration//GEN-END:variables

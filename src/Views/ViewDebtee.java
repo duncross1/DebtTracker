@@ -74,11 +74,11 @@ public class ViewDebtee extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Debt", "Value £", "DOD", "Notes"
+                "ID", "Debt", "Value", "DOD", "Notes"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, true, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -131,16 +131,16 @@ public class ViewDebtee extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
+                        .addGap(114, 114, 114)
                         .addComponent(lblDebteeName))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnRemoveDebtee, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddDebt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                        .addComponent(btnAddDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRemoveDebtee, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnRemoveDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblMessage))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,14 +152,13 @@ public class ViewDebtee extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAddDebt)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddDebt)
                     .addComponent(btnRemoveDebtee)
                     .addComponent(btnRemoveDebt))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMessage)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,7 +226,7 @@ public class ViewDebtee extends javax.swing.JFrame {
             Debt debtToAdd = entry.getValue();
             //add that debt to the debts table
             model.addRow(new Object[] 
-            {debtToAdd.getDebtID(), debtToAdd.getDebtName(), debtToAdd.getAmount(), debtToAdd.getDOD(), debtToAdd.getNotes()});
+            {debtToAdd.getDebtID(), debtToAdd.getDebtName(), "£" +  String.format("%.02f", debtToAdd.getAmount()), debtToAdd.getDOD(), debtToAdd.getNotes()});
         }
         
         //Hide message label

@@ -69,6 +69,7 @@ public class ViewDebtee extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DesktopDebter - Debtee View");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon.png")).getImage());
         setResizable(false);
 
         tblDebts.setModel(new javax.swing.table.DefaultTableModel(

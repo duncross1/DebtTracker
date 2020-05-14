@@ -107,6 +107,7 @@ public class ControlPanel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DesktopDebter - Control Panel");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon.png")).getImage());
         setResizable(false);
 
         tblDebtees.setModel(new javax.swing.table.DefaultTableModel(

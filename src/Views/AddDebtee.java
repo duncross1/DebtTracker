@@ -44,6 +44,7 @@ public class AddDebtee extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DesktopDebter");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon.png")).getImage());
         setResizable(false);
 
         btnAddDebtee.setText("Add Debtee");
